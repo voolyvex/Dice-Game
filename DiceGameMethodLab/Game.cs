@@ -1,4 +1,6 @@
-﻿namespace DiceGameMethodLab
+﻿using System;
+
+namespace DiceGameMethodLab
 {
     internal class Game
     {
