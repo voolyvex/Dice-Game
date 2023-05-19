@@ -9,12 +9,12 @@ namespace DiceGameMethodLab
 {
     internal class Game
     {
-        //Member Variables
-        int playerOneScore;
-        int playerTwoScore;
-        Random rand;
+        // Member Variables
+        private int playerOneScore;
+        private int playerTwoScore;
+        private Random rand;
 
-        //Constructor
+        // Constructor
         public Game()
         {
             playerOneScore = 0;
@@ -22,77 +22,99 @@ namespace DiceGameMethodLab
             rand = new Random();
         }
 
-        //Member Methods
+        // Member Methods
         public int RollDice(int numberOfSides)
         {
-            if (numberOfSides == 0)
+            while (numberOfSides == 0)
             {
-                Console.WriteLine("Please find a dice with more than zero sides!");
-                this.RunGame();
+                Console.WriteLine("Please choose a dice with more than zero sides!");
+                numberOfSides = ChooseNumberOfSides();
             }
-            return rand.Next(numberOfSides);
+
+            return rand.Next(1, numberOfSides + 1);
         }
 
         public void DisplayWelcome()
         {
-            
             Console.WriteLine("Welcome to the Dice War game!");
         }
 
-
         public int ChooseNumberOfSides()
         {
-            //This method should prompt the user to enter the number of sides,
-            //capture user input and return it after converting it to an integer.
-            //This method only needs to be called once in RunGame(), but the returned
-            //value should be captured as a variable that will be passed into the
-            //RollDice() method each time it's called.
-            Console.WriteLine("Enter the size of dice to use: ");
-            string numSides = Console.ReadLine(); 
+            Console.WriteLine("Enter the number of sides for the dice: ");
+            string numSides = Console.ReadLine();
             return Int32.Parse(numSides);
-            
         }
-
 
         public void CompareRolls(int playerOneRoll, int playerTwoRoll)
         {
-            //This method should compare the two parameter values, then increase the
-            //score of whoever's roll is higher
-            //For example, if playerOneRoll is 5 and playerTwoRoll is 2,
-            //playerOneScore should be increased by 1.
-
-
-
-
+            if (playerOneRoll > playerTwoRoll)
+            {
+                playerOneScore++;
+            }
+            else if (playerOneRoll < playerTwoRoll)
+            {
+                playerTwoScore++;
+            }
         }
 
-
-        public void DisplayWinner()
+        public void DisplayWinner(string winner)
         {
-            //This method should print a message declaring the winner of the game,
-            //ie, the first player who reaches a score of 3
-
-
-
+            Console.WriteLine($"{winner} is the winner!");
         }
-
 
         public void RunGame()
         {
-            //This is the main method that is called in the Program when you press Start
-            //Call your other methods inside this method
-            //You should incorporate a loop to allow for rounds of play
-            //to continue until there is a winner
-
-
             DisplayWelcome();
 
-            ChooseNumberOfSides();
+            int numberOfSides = ChooseNumberOfSides();
+            int targetScore = 3;
+            string winner = "";
 
+            while (playerOneScore < targetScore && playerTwoScore < targetScore)
+            {
+                Console.WriteLine("Press any key to roll the dice...");
+                Console.ReadKey();
+                Console.WriteLine();
 
+                int playerOneRoll = RollDice(numberOfSides);
+                int playerTwoRoll = RollDice(numberOfSides);
 
+                Console.WriteLine($"Player One rolled: {playerOneRoll}");
+                Console.WriteLine($"Player Two rolled: {playerTwoRoll}");
+                Console.WriteLine();
 
+                CompareRolls(playerOneRoll, playerTwoRoll);
 
+                Console.WriteLine($"Player One Score: {playerOneScore}");
+                Console.WriteLine($"Player Two Score: {playerTwoScore}");
+                Console.WriteLine();
+            }
+
+            if (playerOneScore >= targetScore)
+            {
+                winner = "Player One";
+            }
+            else
+            {
+                winner = "Player Two";
+            }
+
+            DisplayWinner(winner);
+
+            Console.WriteLine("Do you want to play again? (Y/N)");
+            string playAgain = Console.ReadLine();
+
+            if (playAgain.ToUpper() == "Y")
+            {
+                playerOneScore = 0;
+                playerTwoScore = 0;
+                RunGame();
+            }
+            else
+            {
+                Console.WriteLine("Thank you for playing!");
+            }
         }
     }
 }
