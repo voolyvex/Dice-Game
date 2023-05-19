@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DiceGameMethodLab
+﻿namespace DiceGameMethodLab
 {
     internal class Game
     {
@@ -63,16 +56,11 @@ namespace DiceGameMethodLab
             Console.WriteLine($"{winner} is the winner!");
         }
 
-        public void RunGame()
+        public void PlayMultipleRounds(int numberOfRounds, int numberOfSides)
         {
-            DisplayWelcome();
-
-            int numberOfSides = ChooseNumberOfSides();
-            int targetScore = 3;
-            string winner = "";
-
-            while (playerOneScore < targetScore && playerTwoScore < targetScore)
+            for (int round = 1; round <= numberOfRounds; round++)
             {
+                Console.WriteLine($"Round {round}");
                 Console.WriteLine("Press any key to roll the dice...");
                 Console.ReadKey();
                 Console.WriteLine();
@@ -90,6 +78,20 @@ namespace DiceGameMethodLab
                 Console.WriteLine($"Player Two Score: {playerTwoScore}");
                 Console.WriteLine();
             }
+        }
+
+        public void RunGame()
+        {
+            DisplayWelcome();
+
+            int numberOfSides = ChooseNumberOfSides();
+            int targetScore = 3;
+            string winner = "";
+
+            Console.WriteLine("Enter the number of rounds to play: ");
+            int numberOfRounds = Int32.Parse(Console.ReadLine());
+
+            PlayMultipleRounds(numberOfRounds, numberOfSides);
 
             if (playerOneScore >= targetScore)
             {
