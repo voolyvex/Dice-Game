@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,12 +9,12 @@ namespace DiceGameMethodLab
 {
     internal class Game
     {
-        //Member Variables - Declares variables that can be accessed anywhere in this class
+        //Member Variables
         int playerOneScore;
         int playerTwoScore;
         Random rand;
 
-        //Constructor - Sets the scores to 0 when a new game is created
+        //Constructor
         public Game()
         {
             playerOneScore = 0;
@@ -24,21 +25,19 @@ namespace DiceGameMethodLab
         //Member Methods
         public int RollDice(int numberOfSides)
         {
-            //This method is complete! When called, it will return a random number.
-            //You will need to pass in an integer as the parameter to represent the
-            //number of sides of the dice being rolled.
+            if (numberOfSides == 0)
+            {
+                Console.WriteLine("Please find a dice with more than zero sides!");
+                this.RunGame();
+            }
             return rand.Next(numberOfSides);
         }
 
         public void DisplayWelcome()
         {
-            //This method is complete! It will display a welcome message to the player
-            //Notice that it is already being called inside the RunGame() method,
-            //so it will run when you start the application.
-            Console.WriteLine("Welcome to the game!");
+            
+            Console.WriteLine("Welcome to the Dice War game!");
         }
-
-        //Don't change anything above this ^^^^^^^^^^^^
 
 
         public int ChooseNumberOfSides()
@@ -48,9 +47,10 @@ namespace DiceGameMethodLab
             //This method only needs to be called once in RunGame(), but the returned
             //value should be captured as a variable that will be passed into the
             //RollDice() method each time it's called.
-
-
-            return 0;
+            Console.WriteLine("Enter the size of dice to use: ");
+            string numSides = Console.ReadLine(); 
+            return Int32.Parse(numSides);
+            
         }
 
 
@@ -87,6 +87,7 @@ namespace DiceGameMethodLab
 
             DisplayWelcome();
 
+            ChooseNumberOfSides();
 
 
 
